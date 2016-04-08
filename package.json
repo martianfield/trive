@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/martianfield/trive/issues"
   },
-  "homepage": "https://github.com/martianfield/trive#readme"
+  "homepage": "https://github.com/martianfield/trive#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "setthings": "^0.2.0"
+  }
 }
