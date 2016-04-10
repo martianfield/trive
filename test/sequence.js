@@ -5,6 +5,16 @@ const sequence = require(__dirname + '/../src/sequence')
 const setthings = require('setthings')
 
 describe("Sequence", () => {
+  it("Caching", () => {
+    // arrange
+    let options = { name: 'a' }
+    // act
+    let s1 = sequence.create(options)
+    let s2 = sequence.fromCache(options.name)
+    // assert
+    expect(s1).to.deep.equal(s2)
+  })
+  
   it("Number of items", () => {
     // arrange
     let options = {

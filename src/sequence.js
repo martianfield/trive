@@ -1,7 +1,8 @@
 'use strict'
-
-// modules
 const merge = require('setthings').merge
+
+// cache
+let cache = new Map()
 
 // exported 'enums'
 const modes = Object.freeze({
@@ -9,7 +10,7 @@ const modes = Object.freeze({
   'Exponential':1
 })
 
-// exported methods
+// default options
 const defaultOptions = {
   initial:1,
   cycles:1,
@@ -17,10 +18,23 @@ const defaultOptions = {
   increase: 1
 }
 
-const create = (options) => {
+/**
+ * Creates a sequence using the given options
+ * @param options
+ * @returns {{items: Array}}
+ */
+function create(options) {
+  // merge options
   merge(options, defaultOptions)
+
+  // prepare
   let sequence = {
     items: []
+  }
+
+  // cache (if there is a name)
+  if(options.name) {
+    cache.set(options.name, sequence)
   }
 
   let previousItem = undefined
@@ -51,6 +65,16 @@ const create = (options) => {
   return sequence
 }
 
+/**
+ * Returns a sequence that has been cache.
+ * @param name
+ * @returns {V}
+ */
+function fromCache(name) {
+  return cache.get(name)
+}
 
+// module exports
 module.exports.create = create
+module.exports.fromCache = fromCache
 module.exports.modes = modes
