@@ -37,31 +37,51 @@ function create(options) {
     cache.set(options.name, sequence)
   }
 
-  let previousItem = undefined
-  for(let i=0; i < options.cycles; i++) {
-    let item = {}
-
-    if(previousItem === undefined) {
-      item.value = options.initial
-    }
-    else {
-      switch(options.mode) {
+  // governor ?
+  if(options.governor) {
+    for(let i=0; i < options.governor.items.length; i++) {
+      let item = {}
+      switch (options.mode) {
         case modes.Linear:
-          item.value = previousItem.value + options.increase
+          item.value = options.governor.items[i].value + options.increase
           break
         case modes.Exponential:
-          item.value = previousItem.value * options.increase
+          item.value = options.governor.items[i].value * options.increase
           break
         default:
-          item.value = options.initial
+          item.value = options.governor.items[i].value
           break
       }
+      sequence.items.push(item)
     }
-
-    sequence.items.push(item)
-    previousItem = item
   }
+  else {
+    let previousItem = undefined
+    for(let i=0; i < options.cycles; i++) {
+      let item = {}
 
+      if(previousItem === undefined) {
+        item.value = options.initial
+      }
+      else {
+        switch(options.mode) {
+          case modes.Linear:
+            item.value = previousItem.value + options.increase
+            break
+          case modes.Exponential:
+            item.value = previousItem.value * options.increase
+            break
+          default:
+            item.value = options.initial
+            break
+        }
+      }
+
+      sequence.items.push(item)
+      previousItem = item
+    }
+  }
+  
   return sequence
 }
 
