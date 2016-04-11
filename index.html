@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Trive by martianfield</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Trive</h1>
+          <h2></h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/martianfield/trive/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/martianfield/trive/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/martianfield/trive" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="trive" class="anchor" href="#trive" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>trive</h1>
+
+<h2>
+<a id="sequences" class="anchor" href="#sequences" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sequences</h2>
+
+<p>To create a sequence use <code>trive.sequence.create(&lt;options&gt;)</code>.</p>
+
+<h3>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Options</h3>
+
+<p>The options object takes the following properties:</p>
+
+<ul>
+<li>
+<code>initial</code> - the initial value (a number) from which to start the sequence. The first item in the sequence will have this value. Default value is <code>1</code> (is ignored if you pass a <code>governor</code>)</li>
+<li>
+<code>cycles</code> - the number of cycles to create (is ignored if you pass a <code>governor</code>)</li>
+<li>
+<code>increase</code> - the value by which to increase an item's value. More details: see <code>mode</code>
+</li>
+<li>
+<code>mode</code> - the mode to use to calculate the value of items. There are two modes:
+
+<ul>
+<li>
+<code>sequence.modes.Linear</code> (default) - the linear mode calculates an item's value by adding the <code>increase</code> value to the value of the predecessor / governor</li>
+<li>
+<code>sequence.modes.Exponential</code> - calculates an item's value by multiplying its predecessor's / governor's value with the <code>increase</code> value</li>
+</ul>
+</li>
+<li>
+<code>governor</code> - a sequence used to base values on. If you pass a governor the sequence will have
+
+<ul>
+<li>the same number of cycles as the governor (i.e. the <code>cycles</code> value is ignored)</li>
+<li>have its item values based on the item values of the governor (instead of using an item's predecessor as the base value)</li>
+</ul>
+</li>
+</ul>
+
+<h3>
+<a id="result" class="anchor" href="#result" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Result</h3>
+
+<p>The result of <code>sequence.create</code> is an object of the following structure:</p>
+
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-ii">items</span>:[
+        { <span class="pl-ii">value</span>: <span class="pl-c1">1</span> },
+        <span class="pl-ii">...</span>
+        { <span class="pl-ii">value</span>: <span class="pl-ii">n</span> }
+    ]
+}</pre></div>
+
+<h3>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Examples</h3>
+
+<h4>
+<a id="linear-sequence-without-governor" class="anchor" href="#linear-sequence-without-governor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Linear Sequence without Governor</h4>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">const</span> <span class="pl-c1">sequence</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>trive<span class="pl-pds">'</span></span>).<span class="pl-smi">sequence</span>
+
+<span class="pl-k">let</span> options <span class="pl-k">=</span> {
+    cycles<span class="pl-k">:</span> <span class="pl-c1">3</span>,
+    initial<span class="pl-k">:</span> <span class="pl-c1">10</span>,
+    increase<span class="pl-k">:</span> <span class="pl-c1">5</span>,
+    mode<span class="pl-k">:</span> <span class="pl-smi">sequence</span>.<span class="pl-smi">modes</span>.<span class="pl-smi">Linear</span>
+}
+<span class="pl-k">let</span> s <span class="pl-k">=</span> <span class="pl-smi">sequence</span>.<span class="pl-en">create</span>(options)</pre></div>
+
+<p>The resulting sequence <code>s</code> looks like this:</p>
+
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-ii">items</span>: [
+        { <span class="pl-ii">value</span>: <span class="pl-c1">10</span> },
+        { <span class="pl-ii">value</span>: <span class="pl-c1">15</span> },
+        { <span class="pl-ii">value</span>: <span class="pl-c1">20</span> }
+    ]
+}</pre></div>
+
+<h4>
+<a id="exponential-sequence-without-governor" class="anchor" href="#exponential-sequence-without-governor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Exponential Sequence without Governor</h4>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">let</span> options <span class="pl-k">=</span> {
+    initial<span class="pl-k">:</span><span class="pl-c1">10</span>,
+    cycles<span class="pl-k">:</span><span class="pl-c1">3</span>,
+    increase<span class="pl-k">:</span><span class="pl-c1">1.5</span>,
+    mode<span class="pl-k">:</span><span class="pl-smi">sequence</span>.<span class="pl-smi">modes</span>.<span class="pl-smi">Exponential</span>
+}
+
+<span class="pl-k">let</span> s <span class="pl-k">=</span> <span class="pl-smi">sequence</span>.<span class="pl-en">create</span>(options)</pre></div>
+
+<p>The resulting sequence <code>s</code> looks like this:</p>
+
+<div class="highlight highlight-source-json"><pre>{
+    <span class="pl-ii">items</span>: [
+        { <span class="pl-ii">value</span>: <span class="pl-c1">10</span> },
+        { <span class="pl-ii">value</span>: <span class="pl-c1">15</span> },
+        { <span class="pl-ii">value</span>: <span class="pl-c1">22.5</span> }
+    ]
+}</pre></div>
+
+<h4>
+<a id="sequnece-with-governor" class="anchor" href="#sequnece-with-governor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sequnece with Governor</h4>
+        </section>
+
+        <footer>
+          Trive is maintained by <a href="https://github.com/martianfield">martianfield</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
