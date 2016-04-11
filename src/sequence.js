@@ -15,7 +15,8 @@ const defaultOptions = {
   initial:1,
   cycles:1,
   mode: modes.Linear,
-  increase: 1
+  increase: 1,
+  slot: 0   // the slot within the cycle (e.g. day of the week, if a cycle is one week long)
 }
 
 /**
