@@ -1,8 +1,8 @@
 'use strict'
 
 const expect = require('chai').expect
-const sequence = require(__dirname + '/../src/sequence')
-const setthings = require('setthings')
+const sequence = require(__dirname + '/../index').sequence// require(__dirname + '/../src/sequence')
+
 
 describe("Sequence", () => {
   it("Caching", () => {
