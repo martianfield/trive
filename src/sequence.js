@@ -16,7 +16,8 @@ const defaultOptions = {
   cycles:1,
   mode: modes.Linear,
   increase: 1,
-  slot: 0   // the slot within the cycle (e.g. day of the week, if a cycle is one week long)
+  slot: 0,   // the slot within the cycle (e.g. day of the week, if a cycle is one week long)
+  governor: null
 }
 
 /**
@@ -31,7 +32,8 @@ function create(options) {
   // prepare
   let sequence = {
     items: [],
-    slot: options.slot
+    slot: options.slot,
+    description: ''
   }
 
   // cache (if there is a name)
@@ -42,7 +44,9 @@ function create(options) {
   // governor ?
   if(options.governor) {
     for(let i=0; i < options.governor.items.length; i++) {
-      let item = {}
+      let item = {
+        sequence: this
+      }
       switch (options.mode) {
         case modes.Linear:
           item.value = options.governor.items[i].value + options.increase
@@ -60,7 +64,9 @@ function create(options) {
   else {
     let previousItem = undefined
     for(let i=0; i < options.cycles; i++) {
-      let item = {}
+      let item = {
+        sequence: this
+      }
 
       if(previousItem === undefined) {
         item.value = options.initial
