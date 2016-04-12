@@ -30,7 +30,8 @@ function create(options) {
 
   // prepare
   let sequence = {
-    items: []
+    items: [],
+    slot: options.slot
   }
 
   // cache (if there is a name)

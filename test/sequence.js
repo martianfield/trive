@@ -26,6 +26,18 @@ describe("Sequence", () => {
     expect(s.items.length).to.equal(10)
   })
 
+  it("Slot", () => {
+    // arrange
+    let o1 = { }
+    let o2 = { slot: 3 }
+    // act
+    let s1 = sequence.create(o1)
+    let s2 = sequence.create(o2)
+    // assert
+    expect(s1.slot).to.equal(0) // o1 has not slot set, so the default 0 will be used
+    expect(s2.slot).to.equal(3) // o3 has slot set to 3
+  })
+
   describe("Modes", () => {
     it("Linear Mode", () => {
       // arrange

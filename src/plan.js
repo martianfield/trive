@@ -3,6 +3,7 @@ const setthings = require('setthings')
 
 // default options
 const defaultOptions = {
+  slots:0,  // any sequence slot higher than this value will override this
 }
 
 // functions
@@ -12,15 +13,22 @@ function create(options) {
   var sequences = Array.prototype.slice.call(arguments, create.length)
 
   let plan = {
-    cycles:[]
+    cycles:[],
+    slots:options.slots
   }
 
   sequences.forEach((sequence) => {
     for(let i = 0; i < sequence.items.length; i++) {
+      if(sequence.slot >= plan.slots) {
+        plan.slots = sequence.slot + 1
+      }
       if(plan.cycles[i] === undefined) {
         plan.cycles[i] = []
       }
-      plan.cycles[i].push(sequence.items[i])
+      if(plan.cycles[i][sequence.slot] === undefined) {
+        plan.cycles[i][sequence.slot] = []
+      }
+      plan.cycles[i][sequence.slot].push(sequence.items[i])
     }
   })
 
