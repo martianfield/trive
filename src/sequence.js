@@ -10,11 +10,18 @@ const modes = Object.freeze({
   'Exponential':1
 })
 
+const units = Object.freeze({
+  'Seconds': 0,
+  'Minutes': 1,
+  'Hours': 2
+})
+
 // default options
 const defaultOptions = {
   initial:1,
   cycles:1,
   mode: modes.Linear,
+  unit: units.Minutes,
   increase: 1,
   slot: 0,   // the slot within the cycle (e.g. day of the week, if a cycle is one week long)
   governor: null
@@ -45,7 +52,7 @@ function create(options) {
   if(options.governor) {
     for(let i=0; i < options.governor.items.length; i++) {
       let item = {
-        sequence: this
+        sequence: sequence
       }
       switch (options.mode) {
         case modes.Linear:
@@ -65,7 +72,7 @@ function create(options) {
     let previousItem = undefined
     for(let i=0; i < options.cycles; i++) {
       let item = {
-        sequence: this
+        sequence: sequence
       }
 
       if(previousItem === undefined) {
