@@ -24,7 +24,9 @@ const defaultOptions = {
   unit: units.Minutes,
   increase: 1,
   slot: 0,   // the slot within the cycle (e.g. day of the week, if a cycle is one week long)
-  governor: null
+  governor: null,
+  title:"",
+  description:""
 }
 
 /**
@@ -40,7 +42,8 @@ function create(options) {
   let sequence = {
     items: [],
     slot: options.slot,
-    description: ''
+    description: options.description,
+    title: options.title
   }
 
   // cache (if there is a name)
