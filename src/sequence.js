@@ -26,7 +26,9 @@ const defaultOptions = {
   slot: 0,   // the slot within the cycle (e.g. day of the week, if a cycle is one week long)
   governor: null,
   title:"",
-  description:""
+  description:"",
+  min:undefined,
+  max:undefined
 }
 
 /**
@@ -99,7 +101,18 @@ function create(options) {
       previousItem = item
     }
   }
-  
+
+  //enforce min / max
+  for(let i=0; i < sequence.items.length; i += 1) {
+    if(options.min) {
+      sequence.items[i].value = sequence.items[i].value < options.min ? options.min : sequence.items[i].value
+    }
+    if(options.max) {
+      sequence.items[i].value = sequence.items[i].value > options.max ? options.max : sequence.items[i].value
+    }
+  }
+
+  // done
   return sequence
 }
 

@@ -72,6 +72,42 @@ describe("Sequence", () => {
     })
   })
 
+  describe("Min / Max", () => {
+    it("min", () => {
+      // arrange
+      let options = {
+        initial:10,
+        cycles:3,
+        increase:1,
+        mode:sequence.modes.Linear,
+        min: 11
+      }
+      // act
+      let s = sequence.create(options)
+      // assert
+      expect(s.items[0].value).to.equal(11) // without min:11, this would be 10
+      expect(s.items[1].value).to.equal(11)
+      expect(s.items[2].value).to.equal(12)
+    })
+
+    it("max", () => {
+      // arrange
+      let options = {
+        initial:10,
+        cycles:3,
+        increase:1,
+        mode:sequence.modes.Linear,
+        max:11
+      }
+      // act
+      let s = sequence.create(options)
+      // assert
+      expect(s.items[0].value).to.equal(10)
+      expect(s.items[1].value).to.equal(11)
+      expect(s.items[2].value).to.equal(11) // without max:11, this would be 12
+    })
+  })
+
   describe("Governor", () => {
     it("Governor used with Linear Mode", () => {
       // arrange
